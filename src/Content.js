@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
+import { Container, Row, Col } from 'react-bootstrap';
 import { fetchLikedFormSubmissions } from './service/mockServer';
 
 export default function Content() {
@@ -10,7 +9,6 @@ export default function Content() {
     fetchLikedFormSubmissions()
       .then(response => {
         const { formSubmissions } = response;
-        //alert(response)
         setLikedSubmissions(formSubmissions);
       })
       .catch(error => {
@@ -19,17 +17,19 @@ export default function Content() {
   }, []);
 
   return (
-    <Box sx={{marginTop: 3}}>
-      <Typography variant="h4">Liked Form Submissions</Typography>
+    <Container className="mt-3">
+      <h4 className="mb-4">Liked Form Submissions</h4>
 
-      <div>
+      <Row>
         {likedSubmissions.map((submission, index) => (
-          <div key={index}>
-            <p>{`Name: ${submission.firstName} ${submission.lastName}`}</p>
-            <p>{`Email: ${submission.email}`}</p>
-          </div>
+          <Col key={index} xs={12} md={6}>
+            <div className="p-3 mb-3 bg-light rounded">
+              <p><strong>Name:</strong> {`${submission.firstName} ${submission.lastName}`}</p>
+              <p><strong>Email:</strong> {submission.email}</p>
+            </div>
+          </Col>
         ))}
-      </div>
-    </Box>
+      </Row>
+    </Container>
   );
 }
